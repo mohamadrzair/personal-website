@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammadreza Iranpour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d12;
+    --surface: #12161d;
+    --surface-2: #171c24;
+    --line: #232a35;
+    --text: #e7edf3;
+    --muted: #8a97a6;
+    --accent: #56e0c9;
+    --accent-dim: rgba(86,224,201,0.12);
+    --amber: #f0a94e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'JetBrains Mono', monospace;
+    line-height:1.75;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  /* background scanline texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: linear-gradient(180deg, transparent 0%, transparent 98%, rgba(86,224,201,0.03) 100%);
+    background-size: 100% 4px;
+    pointer-events:none;
+    z-index:1;
+  }
+
+  header{
+    position:sticky; top:0; z-index:10;
+    background:rgba(10,13,18,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    max-width:920px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+  }
+  .logo{
+    width:38px; height:38px; border:1px solid var(--accent);
+    border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--accent); font-weight:600;
+  }
+  .nav-links{display:flex; gap:28px; font-size:13.5px; color:var(--muted);}
+  .nav-links a:hover{color:var(--accent);}
+
+  section{max-width:920px; margin:0 auto; padding:80px 24px; position:relative; z-index:2;}
+
+  /* HERO */
+  .hero{padding-top:64px; padding-bottom:60px;}
+  .term{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--surface-2);
+  }
+  .dot{width:11px;height:11px;border-radius:50%;}
+  .dot:nth-child(1){background:#ff5f57;}
+  .dot:nth-child(2){background:#febc2e;}
+  .dot:nth-child(3){background:#28c840;}
+  .term-title{margin-left:10px; font-size:12px; color:var(--muted);}
+  .term-body{
+    padding:26px 22px 30px;
+    font-size:14.5px;
+    min-height:210px;
+  }
+  .term-line{color:var(--muted); margin-bottom:6px;}
+  .term-line .prompt{color:var(--accent);}
+  .term-out{color:var(--text); margin-bottom:14px; white-space:pre-wrap;}
+  .cursor{display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:middle; margin-left:4px; animation:blink 1s step-start infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero-name{
+    margin-top:40px;
+    font-size:clamp(30px,5vw,44px);
+    font-weight:800;
+    letter-spacing:-0.5px;
+  }
+  .hero-role{
+    margin-top:10px; color:var(--muted); font-size:15.5px;
+  }
+  .hero-tag{margin-top:18px; color:var(--text); font-size:14.5px; max-width:60ch; opacity:0.9;}
+
+  /* SECTION HEADS */
+  .head{display:flex; align-items:baseline; gap:12px; margin-bottom:34px;}
+  .head .idx{color:var(--accent); font-size:14px;}
+  .head .rule{flex:1; height:1px; background:var(--line);}
+
+  /* ABOUT */
+  .about-text{font-size:15px; color:#c9d2db; max-width:68ch;}
+
+  /* SKILLS */
+  .track{
+    display:flex; align-items:center; gap:18px;
+    padding:18px 20px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:12px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .track:hover{border-color:var(--accent); transform:translateX(2px);}
+  .track-status{
+    font-size:11.5px;
+    color:var(--accent);
+    background:var(--accent-dim);
+    border:1px solid rgba(86,224,201,0.35);
+    padding:4px 10px;
+    border-radius:100px;
+    white-space:nowrap;
+  }
+  .track-name{font-weight:700; font-size:15px;}
+  .track-desc{color:var(--muted); font-size:13px; margin-top:2px;}
+  .track-main{flex:1;}
+
+  /* CONTACT */
+  .contact-grid{display:flex; gap:14px; flex-wrap:wrap;}
+  .contact-card{
+    width:64px; height:64px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:var(--muted);
+    transition:color .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .contact-card:hover{border-color:var(--accent); color:var(--accent); background:var(--surface-2);}
+  .contact-card svg{width:22px; height:22px;}
+
+  footer{
+    text-align:center; padding:36px 24px 50px;
+    color:var(--muted); font-size:12.5px;
+  }
+
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">MI</div>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="term">
+    <div class="term-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="term-title">guest@iranpour: ~</span>
+    </div>
+    <div class="term-body" id="termBody"></div>
+  </div>
+
+  <h1 class="hero-name">Mohammadreza Iranpour</h1>
+  <p class="hero-role">Student · learning security, networking &amp; web design</p>
+  <p class="hero-tag">This page is a progress log for a learning path in the making — a place to introduce myself and share how to reach me, while the skills below are still under construction.</p>
+</section>
+
+<section id="about">
+  <div class="head"><span class="idx">$ cat about.txt</span><div class="rule"></div></div>
+  <p class="about-text">
+    Still early in the journey. My days are split between learning the basics of security, networking, and web design.
+    I think of this page more as a simple contact point and introduction than a finished resume —
+    it'll grow as the work does.
+  </p>
+</section>
+
+<section id="skills">
+  <div class="head"><span class="idx">$ ps --learning</span><div class="rule"></div></div>
+
+  <div class="track">
+    <div class="track-main">
+      <div class="track-name">Security</div>
+      <div class="track-desc">Ethical hacking basics, vulnerabilities, and defense principles</div>
+    </div>
+    <span class="track-status">in progress</span>
+  </div>
+
+  <div class="track">
+    <div class="track-main">
+      <div class="track-name">Networking</div>
+      <div class="track-desc">Protocols, addressing, and network communication structure</div>
+    </div>
+    <span class="track-status">in progress</span>
+  </div>
+
+  <div class="track">
+    <div class="track-main">
+      <div class="track-name">Web Design</div>
+      <div class="track-desc">Building interfaces and web pages</div>
+    </div>
+    <span class="track-status">in progress</span>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="head"><span class="idx">$ connect --list</span><div class="rule"></div></div>
+  <div class="contact-grid">
+
+    <a class="contact-card" href="https://github.com/mohamadrzair" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.7 5.38-5.27 5.67.42.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+    </a>
+
+    <a class="contact-card" href="https://t.me/mohamadrzair" target="_blank" rel="noopener" aria-label="Telegram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21.9 3.3 2.6 10.9c-1.2.5-1.2 1.2-.2 1.5l4.9 1.5 1.9 5.8c.2.6.4.8.7.8.4 0 .6-.2.8-.5l2.3-2.2 4.8 3.6c.9.5 1.5.2 1.7-.8L23.9 4.6c.3-1.3-.5-1.9-1.9-1.3ZM8.6 14.1l9.4-8.5c.4-.4.9-.2.5.2l-8 7.5-.3 3.3-1.6-2.5Z"/></svg>
+    </a>
+
+    <a class="contact-card" href="https://instagram.com/mohamdrzair" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 2 .24 2.7.5.7.28 1.3.66 1.9 1.24.6.6.96 1.2 1.24 1.9.27.7.45 1.5.5 2.7.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.24 2-.5 2.7-.28.7-.66 1.3-1.24 1.9-.6.6-1.2.96-1.9 1.24-.7.27-1.5.45-2.7.5-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-2-.24-2.7-.5-.7-.28-1.3-.66-1.9-1.24-.6-.6-.96-1.2-1.24-1.9-.27-.7-.45-1.5-.5-2.7C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.24-2 .5-2.7.28-.7.66-1.3 1.24-1.9.6-.6 1.2-.96 1.9-1.24.7-.27 1.5-.45 2.7-.5C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.15 0-3.52 0-4.76.07-1 .05-1.6.21-2 .35-.5.2-.86.42-1.24.8-.38.38-.6.74-.8 1.24-.14.4-.3 1-.35 2C2.8 9.48 2.8 9.85 2.8 13s0 3.52.07 4.76c.05 1 .21 1.6.35 2 .2.5.42.86.8 1.24.38.38.74.6 1.24.8.4.14 1 .3 2 .35 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c1-.05 1.6-.21 2-.35.5-.2.86-.42 1.24-.8.38-.38.6-.74.8-1.24.14-.4.3-1 .35-2 .06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1-.21-1.6-.35-2-.2-.5-.42-.86-.8-1.24-.38-.38-.74-.6-1.24-.8-.4-.14-1-.3-2-.35C15.52 4 15.15 4 12 4Zm0 3.9a4.1 4.1 0 1 1 0 8.2 4.1 4.1 0 0 1 0-8.2Zm0 1.8a2.3 2.3 0 1 0 0 4.6 2.3 2.3 0 0 0 0-4.6Zm5.2-2a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <span>// work in progress — this page updates as the learning path moves forward</span>
+</footer>
+
+<script>
+  const lines = [
+    { prompt: '$', cmd: 'whoami' },
+    { out: 'mohamadreza_iranpour' },
+    { prompt: '$', cmd: 'learning --status' },
+    { out: 'security     [in-progress]\nnetworking   [in-progress]\nweb-design   [in-progress]' }
+  ];
+
+  const el = document.getElementById('termBody');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderStatic(){
+    el.innerHTML = '';
+    lines.forEach(l=>{
+      if(l.cmd){
+        const d = document.createElement('div');
+        d.className = 'term-line';
+        d.innerHTML = `<span class="prompt">${l.prompt}</span> ${l.cmd}`;
+        el.appendChild(d);
+      } else {
+        const d = document.createElement('div');
+        d.className = 'term-out';
+        d.textContent = l.out;
+        el.appendChild(d);
+      }
+    });
+  }
+
+  async function typeLines(){
+    for(const l of lines){
+      if(l.cmd){
+        const d = document.createElement('div');
+        d.className = 'term-line';
+        d.innerHTML = `<span class="prompt">${l.prompt}</span> `;
+        el.appendChild(d);
+        for(const ch of l.cmd){
+          d.innerHTML += ch;
+          await new Promise(r=>setTimeout(r, 28));
+        }
+      } else {
+        const d = document.createElement('div');
+        d.className = 'term-out';
+        d.style.whiteSpace = 'pre-wrap';
+        el.appendChild(d);
+        for(const ch of l.out){
+          d.textContent += ch;
+          await new Promise(r=>setTimeout(r, 10));
+        }
+      }
+      await new Promise(r=>setTimeout(r, 120));
+    }
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    el.appendChild(cursor);
+  }
+
+  if(reduceMotion){
+    renderStatic();
+  } else {
+    typeLines();
+  }
+</script>
+
+</body>
+</html>
